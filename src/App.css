@@ -1,0 +1,9 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+}

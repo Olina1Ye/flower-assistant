@@ -1,0 +1,84 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* AI 页输入框：覆盖在设计的 Placeholder 区域上，视觉保持不变 */
+.assistant-input {
+  position: absolute;
+  left: 16px;
+  top: 1px;
+  width: 981px;
+  height: 77px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.92);
+  font-size: 24px;
+  font-family: "SF Pro", Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-weight: 510;
+}
+
+/* AI 页：聊天渲染（不改变外框尺寸与底色） */
+.assistant-chat-scroll {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 16px;
+}
+
+.assistant-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.assistant-row.user {
+  justify-content: flex-end;
+}
+
+.assistant-row.bot {
+  justify-content: flex-start;
+}
+
+.assistant-bubble {
+  max-width: 700px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  color: rgba(0, 0, 0, 0.92);
+  font-family: "SF Pro", Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-size: 24px;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+}
+
+.assistant-row.user .assistant-bubble {
+  background: rgba(99, 183, 239, 0.35);
+}
+
+/* AI 页：输入区整体下移 20px（保持白底不变） */
+[data-path="/assistant"] [data-state="Placeholder"] {
+  top: 1078px !important;
+}
+
+[data-path="/assistant"] [data-action="assistant-send"] {
+  top: 1088px !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+/* AI 页：去掉发送按钮内部的白色背景层，让按钮“悬浮” */
+[data-path="/assistant"] [data-action="assistant-send"] [data-send-white-wrap],
+[data-path="/assistant"] [data-action="assistant-send"] [data-send-white-bg] {
+  background: transparent !important;
+}

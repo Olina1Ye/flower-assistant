@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(findstr :3001)",
+      "Bash(tasklist /fi \"imagename eq node.exe\")",
+      "Bash(node --check server.js)"
+    ]
+  }
+}

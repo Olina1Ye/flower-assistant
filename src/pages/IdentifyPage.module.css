@@ -1,0 +1,334 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.hint {
+  max-width: 460px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--accent) 18%, var(--border));
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.previewRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.uploader {
+  border-radius: 22px;
+  background: color-mix(in oklab, var(--surface) 84%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.uploadTop {
+  padding: 14px 16px 0;
+}
+
+.uploadTitle {
+  font-weight: 850;
+  letter-spacing: 0.2px;
+}
+
+.uploadDesc {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.dropArea {
+  margin: 12px 0 0;
+  border-radius: 18px;
+  height: 320px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.10), rgba(251, 207, 232, 0.14));
+  border: 1px dashed color-mix(in oklab, var(--border) 70%, transparent);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  text-align: center;
+  color: var(--muted);
+}
+
+.placeholderIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  box-shadow: var(--shadow-sm);
+  font-size: 22px;
+}
+
+.placeholderText {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.controls {
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.organRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.segment {
+  display: inline-flex;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 76%, transparent);
+  overflow: hidden;
+}
+
+.segmentBtn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.segmentBtn:hover {
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  color: var(--text);
+}
+
+.segmentBtnActive {
+  background: color-mix(in oklab, var(--primary) 16%, var(--surface));
+  color: var(--text);
+}
+
+.btnRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pickBtn {
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 76%, transparent);
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.identifyBtn {
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--primary) 35%, var(--border));
+  background: linear-gradient(135deg, #22c55e, #34d399);
+  color: #0b2214;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.identifyBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.apiNote {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+}
+
+.error {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--danger) 14%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--danger) 22%, var(--border));
+  color: color-mix(in oklab, var(--danger) 60%, var(--text));
+}
+
+.resultCard {
+  border-radius: 22px;
+  background: color-mix(in oklab, var(--surface) 84%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  box-shadow: var(--shadow-md);
+  padding: 16px;
+  flex: 0 0 320px;
+  max-width: 40%;
+}
+
+.resultTitle {
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.kv {
+  margin-top: 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.kvGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.k {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.v {
+  font-weight: 850;
+  font-size: 16px;
+}
+
+.sectionTitle {
+  margin-top: 12px;
+  font-weight: 900;
+}
+
+.list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.scoreRow {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+}
+
+.scoreLabel {
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.scoreValue {
+  font-weight: 900;
+}
+
+.empty {
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.lowScoreWarning {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.askAiRow {
+  margin-top: 16px;
+}
+
+.askAiBtn {
+  composes: identifyBtn;
+  background: transparent;
+  color: var(--text);
+}
+
+.askAiBtn:hover {
+  background: color-mix(in oklab, var(--primary) 22%, var(--surface));
+}
+
+.askAiBtn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .previewRow {
+    flex-direction: column-reverse;
+  }
+
+  .resultCard {
+    max-width: 100%;
+    flex: none;
+  }
+
+  .hint {
+    max-width: none;
+  }
+}

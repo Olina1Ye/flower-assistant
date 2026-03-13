@@ -1,0 +1,144 @@
+.appShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  overflow-x: clip;
+}
+
+.bgDecor {
+  position: absolute;
+  inset: -40vh -20vw auto -20vw;
+  height: 80vh;
+  background:
+    radial-gradient(closest-side, rgba(64, 160, 120, 0.22), rgba(64, 160, 120, 0) 65%),
+    radial-gradient(closest-side, rgba(255, 170, 200, 0.18), rgba(255, 170, 200, 0) 70%),
+    radial-gradient(closest-side, rgba(120, 190, 255, 0.14), rgba(120, 190, 255, 0) 65%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--surface) 75%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+}
+
+.topbarInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.brand:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.brandText {
+  font-weight: 750;
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navLink {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 650;
+  padding: 10px 12px;
+  border-radius: 999px;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.userActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navLink:hover {
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.navLinkActive {
+  background: color-mix(in oklab, var(--primary) 16%, var(--surface));
+  color: var(--text);
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+  padding: 26px 18px 42px;
+}
+
+.footer {
+  border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+}
+
+.footerInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footerLeft {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.footerHint {
+  white-space: nowrap;
+  font-weight: 650;
+}
+
+@media (max-width: 680px) {
+  .footerInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .navLink {
+    padding: 9px 10px;
+  }
+}

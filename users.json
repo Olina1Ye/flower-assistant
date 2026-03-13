@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1773381481513,
+    "username": "admin",
+    "password": "$2b$10$M0CnKkh0yFMKivwoU4T11Osz9a/P8T0bSEXk1OB3AVrKXs1hSvBQC",
+    "isAdmin": true
+  },
+  {
+    "id": 1773384452436,
+    "username": "testuser",
+    "password": "$2b$10$GUpWayFTblDFXYgUWvwIZOfeuuSLTu/xPUU3pvDuRE0fcIdQki.jC",
+    "isAdmin": false
+  }
+]
