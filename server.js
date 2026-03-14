@@ -265,9 +265,9 @@ app.post('/api/translate', async (req, res) => {
     return res.status(500).json({ error: msg });
   }
 });
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname)));
 // Fallback to index.html for client-side routing
 app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 app.listen(3001, '0.0.0.0', () => console.log('代理服务器运行在 http://127.0.0.1:3001'))
