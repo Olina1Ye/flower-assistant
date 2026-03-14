@@ -1,13 +1,14 @@
 import type { ChatMessage } from '../types'
 
+// 你的Replit后端API基础地址（已配置好，无需修改）
+const API_BASE = "https://b30abb00-ec9e-47c1-a588-150edf6febeb-3sho10ze6mobd.picard.replit.dev/api";
+
 function normalize(text: string) {
   return text.trim().toLowerCase()
 }
-
 function ruleBasedReply(userText: string) {
   const t = normalize(userText)
   const lines: string[] = []
-
   // 根据不同关键词返回不同的专项建议
   if (t.includes('黄') || t.includes('发黄') || t.includes('黄叶')) {
     lines.push('我来帮你分析黄叶的原因：')
@@ -25,7 +26,6 @@ function ruleBasedReply(userText: string) {
     lines.push('建议你拍个照片让我看看具体情况，我能给更准确的诊断。')
     return lines.join('\n')
   }
-
   if (t.includes('烂') || t.includes('闷') || t.includes('臭') || t.includes('根')) {
     lines.push('关于闷根/烂根的处理：')
     lines.push('')
@@ -42,7 +42,6 @@ function ruleBasedReply(userText: string) {
     lines.push('一般需要 2-4 周才能看到明显改善，要有耐心。')
     return lines.join('\n')
   }
-
   if (t.includes('虫') || t.includes('蚜') || t.includes('红蜘蛛') || t.includes('介壳')) {
     lines.push('关于虫害的防治：')
     lines.push('')
@@ -59,7 +58,6 @@ function ruleBasedReply(userText: string) {
     lines.push('同时改善环境：提高通风与光照，减少拥挤枝叶。')
     return lines.join('\n')
   }
-
   if (t.includes('不开花') || t.includes('不花') || t.includes('花苞') || t.includes('落蕾')) {
     lines.push('关于不开花/落蕾的解决方案：')
     lines.push('')
@@ -76,7 +74,6 @@ function ruleBasedReply(userText: string) {
     lines.push('促花小贴士：生长期多浇水+施肥，花期来临前逐步增加光照和降低浇水频率。')
     return lines.join('\n')
   }
-
   if (t.includes('缓苗') || t.includes('蔫') || t.includes('买') || t.includes('新') || t.includes('回家')) {
     lines.push('新买花卉的缓苗指南：')
     lines.push('')
@@ -94,7 +91,6 @@ function ruleBasedReply(userText: string) {
     lines.push('通常 1-2 周后会逐步恢复，保持耐心！')
     return lines.join('\n')
   }
-
   if (t.includes('肥') || t.includes('施肥') || t.includes('营养')) {
     lines.push('关于施肥的完整指南：')
     lines.push('')
@@ -112,7 +108,6 @@ function ruleBasedReply(userText: string) {
     lines.push('施肥后发现植株叶尖焦黑？马上大量浇水稀释，移到阴凉处恢复。')
     return lines.join('\n')
   }
-
   if (t.includes('光') || t.includes('照') || t.includes('晒') || t.includes('散射光')) {
     lines.push('关于光照的详细建议：')
     lines.push('')
@@ -129,7 +124,6 @@ function ruleBasedReply(userText: string) {
     lines.push('改善方案：靠近窗边 + 定期转盆 + 必要时用补光灯。')
     return lines.join('\n')
   }
-
   if (t.includes('浇水') || t.includes('干') || t.includes('湿') || t.includes('水')) {
     lines.push('关于浇水的系统指南：')
     lines.push('')
@@ -148,7 +142,6 @@ function ruleBasedReply(userText: string) {
     lines.push('• 浇水时间太晚：冬天傍晚浇水，夜间温度低容易冷根')
     return lines.join('\n')
   }
-
   // 如果没有特定的关键词，返回一个通用的问诊
   lines.push('我来帮你诊断一下。为了给你更准确的建议，能否告诉我：')
   lines.push('')
@@ -165,7 +158,6 @@ function ruleBasedReply(userText: string) {
   
   return lines.join('\n')
 }
-
 export function getStarterSuggestions() {
   return [
     '叶子发黄、土一直湿，怎么办？',
@@ -174,26 +166,21 @@ export function getStarterSuggestions() {
     '叶背有小虫，像红蜘蛛，要怎么处理？',
   ]
 }
-
 export async function fetchAssistantReply(
   messages: ChatMessage[],
   plantContext?: string
 ): Promise<string> {
   const lastUser = [...messages].reverse().find((m) => m.role === 'user')
-
   if (!lastUser) return '你可以先描述一下你的花的状态～'
-
   // 始终调用后端 API，并将规则库作为知识注入
   const knowledge = ruleBasedReply(lastUser.content)
-
   let systemPrompt = `你是一位经验丰富的养花专家和园艺顾问。用户会问你关于植物养护、花卉管理的问题。\n
 你的回答应该：\n1. 根据用户的具体描述进行诊断，不要重复问四个问题\n2. 提供具体、可执行的养护建议\n3. 优先识别问题原因，然后给出解决方案\n4. 使用通俗易懂的语言，避免过于学术\n5. 如果用户信息不足，可以再询问1-2个关键问题\n6. 保持友好、耐心、鼓励的态度\n\n输出格式要求：\n- 仅在需要对比多个项目或展示结构化数据时使用表格\n- 表格前不要加多余空行，不要大量使用换行和留白\n- 表格与上文之间只保留1行空行，紧凑输出\n- 优先使用自然段落和列表，而不是表格\n- 保持markdown格式简洁，避免过度排版`
-
   if (plantContext) {
     systemPrompt += `\n\n当前用户正在询问关于「${plantContext}」的问题，请优先围绕它来回答。`
   }
-
-  const response = await fetch('http://localhost:3001/api/chat', {
+  // 核心修改：替换为Replit后端地址，兼容跨域请求
+  const response = await fetch(`${API_BASE}/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -211,14 +198,14 @@ export async function fetchAssistantReply(
       ],
       knowledge,
     }),
+    // 允许跨域携带凭证，兼容后端CORS配置
+    credentials: 'include'
   })
-
   if (!response.ok) {
     const errorText = await response.text()
     console.error('后端代理错误:', errorText)
     throw new Error(`AI 服务暂时不可用，请稍后再试 (${response.status})`)
   }
-
   const data = (await response.json()) as {
     output?: {
       text?: string
@@ -226,12 +213,9 @@ export async function fetchAssistantReply(
     }
     // ... other fields
   }
-
   const replyText = data.output?.text
-
   if (replyText && replyText.trim()) {
     return replyText
   }
-
   throw new Error('AI 未能生成有效的回复，请换个问题试试。')
 }
