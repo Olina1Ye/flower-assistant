@@ -70,3 +70,20 @@
   background-color: #007bff;
   color: white;
 }
+
+/* 反馈提交错误提示 */
+.submitError {
+  color: #f43f5e; /* 红色系，适配大多数项目 */
+  font-size: 14px;
+  margin: 8px 0 0 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+/* 禁用状态下的按钮样式优化 */
+.submitButton:disabled,
+.cancelButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  /* 若原有按钮有背景色，可加背景色置灰：background-color: #ccc; */
+}
