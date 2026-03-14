@@ -15,6 +15,8 @@ app.use(cors({
     'http://localhost:3000', 
     'http://127.0.0.1:5173',
     'https://flower-assistant-v51q.vercel.app' // 你的线上前端域名
+    /^https:\/\/.*\.replit\.dev$/, // 允许所有Replit预览域名（关键新增）
+    /^https:\/\/.*\.repl\.co$/    // 允许Replit的线上部署域名（关键新增）
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
