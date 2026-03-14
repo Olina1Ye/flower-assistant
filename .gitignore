@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment and database
+.env
+*.db
+feedback.json
+users.json

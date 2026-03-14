@@ -16,8 +16,6 @@ function AnimatedRoutes() {
           <Route path="/" element={<HomePage />} />
           <Route path="/assistant" element={<AssistantPage />} />
           <Route path="/identify" element={<IdentifyPage />} />
-          <Route path="/login" element={<HomePage />} />
-          <Route path="/register" element={<HomePage />} />
           <Route path="/404" element={<div className="container">页面不存在</div>} />
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Route>

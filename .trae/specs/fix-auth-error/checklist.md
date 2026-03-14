@@ -1,4 +1,0 @@
-- [x] 对 `/api/register` 和 `/api/login` 的API请求返回JSON响应。
-- [x] “Unexpected token '<'” 错误已解决。
-- [x] 开发环境可以通过单个命令启动。
-- [x] 应用程序能正确处理用户注册和登录。

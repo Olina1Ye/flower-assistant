@@ -5,8 +5,6 @@ import multer from 'multer'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -15,11 +13,10 @@ app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type'],
 }))
 app.use(express.json())
 
-const usersDB = path.join(__dirname, 'users.json')
 const feedbackDB = path.join(__dirname, 'feedback.json')
 
 const readDB = (dbPath) => {
@@ -38,83 +35,6 @@ const writeDB = (dbPath, data) => {
   } catch (error) {
     console.error(`Error writing to ${dbPath}:`, error);
   }
-};
-
-const createAdmin = async () => {
-    const users = readDB(usersDB);
-    const adminExists = users.some(user => user.username === 'admin');
-    if (!adminExists) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash('admin', salt);
-        users.push({ id: Date.now(), username: 'admin', password: hashedPassword, isAdmin: true });
-        writeDB(usersDB, users);
-        console.log('Admin user created');
-    }
-};
-
-createAdmin();
-
-app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ error: '用户名和密码不能为空' });
-    }
-
-    const users = readDB(usersDB);
-    if (users.some(user => user.username === username)) {
-        return res.status(400).json({ error: '用户已存在' });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = { id: Date.now(), username, password: hashedPassword, isAdmin: false };
-    users.push(newUser);
-    writeDB(usersDB, users);
-
-    res.status(201).json({ message: '用户创建成功' });
-});
-
-app.post('/api/login', async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ error: '用户名和密码不能为空' });
-    }
-
-    const users = readDB(usersDB);
-    const user = users.find(user => user.username === username);
-    if (!user) {
-        return res.status(400).json({ error: '用户名或密码错误' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-        return res.status(400).json({ error: '用户名或密码错误' });
-    }
-
-    const token = jwt.sign({ id: user.id, username: user.username, isAdmin: user.isAdmin }, 'your_jwt_secret', { expiresIn: '1h' });
-    res.json({ token });
-});
-
-const auth = (req, res, next) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    if (!token) {
-        return res.status(401).json({ error: '未提供令牌，授权失败' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, 'your_jwt_secret');
-        req.user = decoded;
-        next();
-    } catch (error) {
-        res.status(401).json({ error: '令牌无效' });
-    }
-};
-
-const admin = (req, res, next) => {
-    if (!req.user.isAdmin) {
-        return res.status(403).json({ error: '访问被拒绝' });
-    }
-    next();
 };
 
 app.post('/api/feedback', (req, res) => {
@@ -138,20 +58,6 @@ app.post('/api/feedback', (req, res) => {
 app.get('/api/feedback', (req, res) => {
     const feedback = readDB(feedbackDB);
     res.json(feedback);
-});
-
-app.delete('/api/feedback/:id', auth, admin, (req, res) => {
-    const { id } = req.params;
-    let feedback = readDB(feedbackDB);
-    const initialLength = feedback.length;
-    feedback = feedback.filter(item => item.id !== parseInt(id));
-
-    if (feedback.length === initialLength) {
-        return res.status(404).json({ error: '未找到反馈' });
-    }
-
-    writeDB(feedbackDB, feedback);
-    res.json({ message: '反馈删除成功' });
 });
 
 // 用 multer 处理 multipart/form-data（不要用 express.json 解析图片上传）
