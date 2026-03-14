@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试 Chat API</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #4CAF50; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #45a049; }
+    #result { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; white-space: pre-wrap; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h1>🌿 测试 Chat API</h1>
+  <button id="testBtn">发送测试请求</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('testBtn').addEventListener('click', async () => {
+      const resultDiv = document.getElementById('result')
+      resultDiv.innerHTML = '正在发送请求...'
+      
+      try {
+        const response = await fetch('http://localhost:3001/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: 'system',
+                content: '你是一位植物养护专家。请用简洁、友好的中文回答用户的问题。'
+              },
+              {
+                role: 'user',
+                content: '绿萝叶子发黄怎么办？'
+              }
+            ],
+            knowledge: '绿萝黄叶可能原因：1.浇水过多 2.光照不足 3.温度过低'
+          }),
+        })
+
+        const data = await response.json()
+        
+        if (response.ok) {
+          resultDiv.innerHTML = '<span class="success">✅ 成功!</span>\n\n' + 
+            '状态码：' + response.status + '\n\n' +
+            'AI 回复:\n' + (data.output?.text || '无内容')
+        } else {
+          resultDiv.innerHTML = '<span class="error">❌ 错误</span>\n\n' +
+            '状态码：' + response.status + '\n\n' +
+            JSON.stringify(data, null, 2)
+        }
+      } catch (error) {
+        resultDiv.innerHTML = '<span class="error">❌ 网络错误</span>\n\n' +
+          error.message + '\n\n' +
+          '请检查:\n1. 后端服务器是否运行在 http://localhost:3001\n2. 浏览器控制台是否有 CORS 错误'
+      }
+    })
+  </script>
+</body>
+</html>
