@@ -46,6 +46,7 @@
 
 .msgRow {
   display: flex;
+  width: 100%;
 }
 
 .userRow {
@@ -57,7 +58,7 @@
 }
 
 .bubble {
-  width: min(680px, 92%);
+  max-width: min(680px, 75%);
   border-radius: 18px;
   padding: 12px 14px;
   background: color-mix(in oklab, var(--surface) 70%, transparent);
@@ -66,8 +67,14 @@
 }
 
 .userRow .bubble {
-  background: color-mix(in oklab, var(--primary) 12%, var(--surface));
-  border-color: color-mix(in oklab, var(--primary) 18%, var(--border));
+  background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 15%, var(--surface)) 0%, color-mix(in oklab, var(--primary) 8%, var(--surface)) 100%);
+  border-color: color-mix(in oklab, var(--primary) 25%, var(--border));
+  box-shadow: 0 2px 8px rgba(52, 211, 153, 0.15);
+}
+
+.botRow .bubble {
+  background: color-mix(in oklab, var(--surface) 85%, transparent);
+  border-color: color-mix(in oklab, var(--border) 50%, transparent);
 }
 
 .roleLabel {
