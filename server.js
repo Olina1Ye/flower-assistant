@@ -8,20 +8,19 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const app = express()
-// 新增 Vercel 线上域名，保留本地开发环境
 app.use(cors({
   origin: [
-    'http://localhost:5173', 
-    'http://localhost:3000', 
+    'http://localhost:5173',
+    'http://localhost:3000',
     'http://127.0.0.1:5173',
-    'https://flower-assistant-v51q.vercel.app' // 你的线上前端域名
-    /^https:\/\/.*\.replit\.dev$/, // 允许所有Replit预览域名（关键新增）
-    /^https:\/\/.*\.repl\.co$/    // 允许Replit的线上部署域名（关键新增）
+    'https://flower-assistant-v51q.vercel.app',
+    /^https:\/\/.*\.replit\.dev$/,
+    /^https:\/\/.*\.repl\.co$/
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
-}))
+}));
 app.use(express.json())
 const feedbackDB = path.join(__dirname, 'feedback.json')
 const readDB = (dbPath) => {
