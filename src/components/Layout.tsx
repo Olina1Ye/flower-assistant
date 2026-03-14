@@ -1,8 +1,6 @@
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import Logo from './Logo'
 import styles from './Layout.module.css'
-import Feedback from './Feedback'; // 导入Feedback组件
-import { useAuth } from '../context/AuthContext';
 
 const navItems = [
   { to: '/', label: '首页' },
@@ -12,13 +10,6 @@ const navItems = [
 
 export default function Layout() {
   const location = useLocation()
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   return (
     <div className={styles.appShell}>
@@ -44,29 +35,9 @@ export default function Layout() {
                 {item.label}
               </NavLink>
             ))}
-            {user?.isAdmin && (
-              <NavLink
-                to="/admin/feedback"
-                className={({ isActive }) =>
-                  [styles.navLink, isActive ? styles.navLinkActive : ''].join(' ')
-                }
-                aria-current={location.pathname === '/admin/feedback' ? 'page' : undefined}
-              >
-                反馈管理
-              </NavLink>
-            )}
           </nav>
 
-          <div className={styles.userActions}>
-            {user ? (
-              <button onClick={handleLogout} className={styles.navLink}>登出</button>
-            ) : (
-              <>
-                <NavLink to="/login" className={styles.navLink}>登录</NavLink>
-                <NavLink to="/register" className={styles.navLink}>注册</NavLink>
-              </>
-            )}
-          </div>
+          <div className={styles.userActions} />
         </div>
       </header>
 
@@ -80,7 +51,6 @@ export default function Layout() {
           <span className={styles.footerHint}>养花更轻松</span>
         </div>
       </footer>
-      { user && !user.isAdmin && <Feedback />}
     </div>
   )
 }

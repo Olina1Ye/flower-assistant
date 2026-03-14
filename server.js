@@ -1,4 +1,4 @@
-import cors from 'cors'
+﻿import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import multer from 'multer'
@@ -117,27 +117,25 @@ const admin = (req, res, next) => {
     next();
 };
 
-app.post('/api/feedback', auth, (req, res) => {
-    const { message } = req.body;
-    if (!message) {
+app.post('/api/feedback', (req, res) => {
+    const { content } = req.body;
+    if (!content) {
         return res.status(400).json({ error: '反馈信息不能为空' });
     }
 
     const feedback = readDB(feedbackDB);
     const newFeedback = { 
         id: Date.now(), 
-        userId: req.user.id, 
-        username: req.user.username, 
-        message, 
+        content, 
         createdAt: new Date().toISOString() 
     };
     feedback.push(newFeedback);
     writeDB(feedbackDB, feedback);
 
-    res.status(201).json({ message: '反馈提交成功' });
+    res.status(201).json({ success: true, id: newFeedback.id, message: '感谢你的反馈！' });
 });
 
-app.get('/api/feedback', auth, admin, (req, res) => {
+app.get('/api/feedback', (req, res) => {
     const feedback = readDB(feedbackDB);
     res.json(feedback);
 });

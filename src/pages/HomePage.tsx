@@ -1,9 +1,37 @@
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Page from '../components/Page'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [feedbackText, setFeedbackText] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmitFeedback = async () => {
+    if (!feedbackText.trim()) return
+
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('http://localhost:3001/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: feedbackText }),
+      })
+
+      if (response.ok) {
+        setFeedbackText('')
+        setShowFeedback(false)
+        alert('感谢您的反馈！')
+      }
+    } catch (error) {
+      console.error('提交失败:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <Page>
       <div className={styles.container}>
@@ -11,7 +39,7 @@ export default function HomePage() {
           <h1 className={styles.title}>把花养好，其实很简单</h1>
 
           <div className={styles.ctaRow}>
-            <NavLink to="/assistant" className={({ isActive }) => (isActive ? '' : '')}>
+            <NavLink to="/assistant">
               <motion.span
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
@@ -30,6 +58,17 @@ export default function HomePage() {
                 拍照识花
               </motion.span>
             </NavLink>
+          </div>
+
+          <div className={styles.feedbackSection}>
+            <motion.button
+              className={styles.feedbackBtn}
+              onClick={() => setShowFeedback(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              💬 意见反馈
+            </motion.button>
           </div>
 
           {/*
@@ -97,6 +136,52 @@ export default function HomePage() {
           */}
         </section>
       </div>
+
+      <AnimatePresence>
+        {showFeedback && (
+          <motion.div
+            className={styles.feedbackModalOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowFeedback(false)}
+          >
+            <motion.div
+              className={styles.feedbackModal}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className={styles.feedbackTitle}>意见反馈</h3>
+              <textarea
+                className={styles.feedbackTextarea}
+                value={feedbackText}
+                onChange={(e) => setFeedbackText(e.target.value)}
+                placeholder="请输入您的宝贵意见或建议..."
+                disabled={isSubmitting}
+                rows={5}
+              />
+              <div className={styles.feedbackActions}>
+                <button
+                  className={styles.cancelBtn}
+                  onClick={() => setShowFeedback(false)}
+                  disabled={isSubmitting}
+                >
+                  取消
+                </button>
+                <button
+                  className={styles.submitBtn}
+                  onClick={handleSubmitFeedback}
+                  disabled={isSubmitting || !feedbackText.trim()}
+                >
+                  {isSubmitting ? '提交中...' : '提交'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Page>
   )
 }
