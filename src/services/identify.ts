@@ -29,10 +29,18 @@ function isChinese(str: string) {
   return /[\u4e00-\u9fa5]/.test(str)
 }
 
+function hasRepeatedChars(str: string) {
+  return /(.)\1/.test(str)
+}
+
 function pickName(species: PlantNetSpecies): string {
-  const chineseName = species.commonNames?.find((n) => isChinese(n))
-  if (chineseName) return chineseName
-  return species.scientificNameWithoutAuthor || species.scientificName || '未知植物'
+  const chineseNames = (species.commonNames ?? []).filter(isChinese)
+  if (chineseNames.length === 0) {
+    return species.scientificNameWithoutAuthor || species.scientificName || '未知植物'
+  }
+  const clean = chineseNames.filter((n) => !hasRepeatedChars(n))
+  const candidates = clean.length > 0 ? clean : chineseNames
+  return candidates[candidates.length - 1]
 }
 
 export async function identifyFlower(params: IdentifyParams): Promise<FlowerIdentifyResult> {
