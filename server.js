@@ -120,9 +120,9 @@ app.post('/api/identify', upload.single('images'), async (req, res) => {
 // Qwen API 代理端点
 app.post('/api/chat', async (req, res) => {
   try {
-    const apiKey = process.env.VITE_QWEN_API_KEY
+    const apiKey = process.env.QWEN_API_KEY || process.env.VITE_QWEN_API_KEY
     if (!apiKey) {
-      return res.status(400).json({ error: '缺少 VITE_QWEN_API_KEY' })
+      return res.status(400).json({ error: '缺少 QWEN_API_KEY 或 VITE_QWEN_API_KEY' })
     }
     const messages = req.body.messages
     const knowledge = req.body.knowledge
@@ -185,9 +185,9 @@ app.post('/api/chat', async (req, res) => {
 // 新增：AI 生成养护要点端点
 app.post('/api/care-tips', async (req, res) => {
   try {
-    const apiKey = process.env.VITE_QWEN_API_KEY;
+    const apiKey = process.env.QWEN_API_KEY || process.env.VITE_QWEN_API_KEY;
     if (!apiKey) {
-      return res.status(400).json({ error: '缺少 VITE_QWEN_API_KEY' });
+      return res.status(400).json({ error: '缺少 QWEN_API_KEY 或 VITE_QWEN_API_KEY' });
     }
     const { name, genus, family } = req.body;
     if (!name) {
@@ -233,9 +233,9 @@ app.post('/api/care-tips', async (req, res) => {
 // 新增：AI 翻译端点
 app.post('/api/translate', async (req, res) => {
   try {
-    const apiKey = process.env.VITE_QWEN_API_KEY;
+    const apiKey = process.env.QWEN_API_KEY || process.env.VITE_QWEN_API_KEY;
     if (!apiKey) {
-      return res.status(400).json({ error: '缺少 VITE_QWEN_API_KEY' });
+      return res.status(400).json({ error: '缺少 QWEN_API_KEY 或 VITE_QWEN_API_KEY' });
     }
     const { name } = req.body;
     if (!name) {
