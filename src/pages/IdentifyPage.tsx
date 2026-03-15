@@ -27,8 +27,6 @@ export default function IdentifyPage() {
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  const hasApiKey = Boolean(import.meta.env.VITE_PLANTNET_API_KEY)
-
   function pickFile() {
     inputRef.current?.click()
   }
@@ -161,9 +159,7 @@ export default function IdentifyPage() {
                     <div className={styles.empty}>正在分析图片，请稍候...</div>
                   ) : (
                     <div className={styles.empty}>
-                      {hasApiKey
-                        ? '上传图片并点击「开始识别」，这里会显示结果。'
-                        : '配置 API Key 后即可识别并展示结果。'}
+                      上传图片并点击「开始识别」，这里会显示结果。
                     </div>
                   )}
                 </div>
@@ -218,18 +214,11 @@ export default function IdentifyPage() {
                     whileTap={{ scale: 0.98 }}
                     className={styles.identifyBtn}
                     onClick={() => void runIdentify()}
-                    disabled={!file || loading || !hasApiKey}
-                    title={!hasApiKey ? '请先配置 VITE_PLANTNET_API_KEY' : undefined}
+                    disabled={!file || loading}
                   >
                     {loading ? '识别中...' : '开始识别'}
                   </motion.button>
                 </div>
-
-                {!hasApiKey ? (
-                  <div className={styles.apiNote}>
-                    需要配置 <code>VITE_PLANTNET_API_KEY</code> 才能调用 PlantNet。
-                  </div>
-                ) : null}
 
                 {error ? <div className={styles.error}>{error}</div> : null}
               </div>

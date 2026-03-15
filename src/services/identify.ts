@@ -31,14 +31,7 @@ function pickName(species: PlantNetSpecies) {
 }
 
 export async function identifyFlower(params: IdentifyParams): Promise<FlowerIdentifyResult> {
-  const apiKey = import.meta.env.VITE_PLANTNET_API_KEY
-  if (!apiKey) {
-    throw new Error('未配置 VITE_PLANTNET_API_KEY，无法调用识花 API')
-  }
-
-  // 通过后端代理而不是直接调用 PlantNet API
-  const url = new URL(`${API_BASE}/identify`)
-  url.searchParams.set('api-key', apiKey)
+  const url = new URL(`${API_BASE}/identify`, window.location.origin)
   url.searchParams.set('lang', 'zh')
   url.searchParams.set('include-related-images', 'false')
 
