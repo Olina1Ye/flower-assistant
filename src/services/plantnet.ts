@@ -37,8 +37,8 @@ export async function identifyWithPlantNet(file: File): Promise<IdentifyResult> 
     throw new Error('鏈厤缃?VITE_PLANTNET_API_KEY')
   }
 
-  // 閫氳繃鏈湴浠ｇ悊杞彂 multipart锛岄伩鍏嶆祻瑙堝櫒渚?CORS / 涓斾笉鐮村潖 boundary
-  const url = new URL('http://localhost:3001/api/identify')
+  // 通过本地代理转发 multipart，避免浏览器报 CORS / 且不破坏 boundary
+  const url = new URL('/api/identify', window.location.origin)
   url.searchParams.set('api-key', apiKey)
   url.searchParams.set('lang', 'zh')
   url.searchParams.set('include-related-images', 'false')

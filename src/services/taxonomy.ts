@@ -2,7 +2,7 @@ export async function translateTaxonomy(name?: string): Promise<string> {
   if (!name) return '—';
 
   try {
-    const res = await fetch('http://localhost:3001/api/translate', {
+    const res = await fetch('/api/translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),

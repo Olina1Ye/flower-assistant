@@ -19,7 +19,7 @@ export default function Feedback() {
     setSubmitError('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/feedback', {
+      const response = await fetch('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
