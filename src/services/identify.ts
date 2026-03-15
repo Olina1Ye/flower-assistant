@@ -29,11 +29,10 @@ function isChinese(str: string) {
   return /[\u4e00-\u9fa5]/.test(str)
 }
 
-function pickRawName(species: PlantNetSpecies) {
+function pickName(species: PlantNetSpecies): string {
   const chineseName = species.commonNames?.find((n) => isChinese(n))
-  if (chineseName) return { name: chineseName, needsTranslation: false }
-  const scientificName = species.scientificNameWithoutAuthor || species.scientificName
-  return { name: scientificName || '', needsTranslation: !!scientificName }
+  if (chineseName) return chineseName
+  return species.scientificNameWithoutAuthor || species.scientificName || '未知植物'
 }
 
 export async function identifyFlower(params: IdentifyParams): Promise<FlowerIdentifyResult> {
@@ -63,9 +62,8 @@ export async function identifyFlower(params: IdentifyParams): Promise<FlowerIden
     throw new Error('识花 API 未返回结果，请换一张更清晰的图片试试')
   }
 
-  const { name: rawName, needsTranslation } = pickRawName(top.species)
-  const [name, genus, family] = await Promise.all([
-    needsTranslation ? translateTaxonomy(rawName) : Promise.resolve(rawName || '未知花卉'),
+  const name = pickName(top.species)
+  const [genus, family] = await Promise.all([
     translateTaxonomy(top.species.genus?.scientificNameWithoutAuthor),
     translateTaxonomy(top.species.family?.scientificNameWithoutAuthor),
   ]);
