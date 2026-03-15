@@ -109,7 +109,14 @@ app.post('/api/identify', upload.single('images'), async (req, res) => {
       return res.status(resp.status).json({ error: `PlantNet 错误: ${resp.status}`, detail: text })
     }
     const data = await resp.json()
-    console.log('PlantNet 返回数据:', data)
+    const top = data.results?.[0]
+    console.log('PlantNet 识别结果 top1:', JSON.stringify({
+      score: top?.score,
+      scientificName: top?.species?.scientificNameWithoutAuthor,
+      commonNames: top?.species?.commonNames,
+      genus: top?.species?.genus?.scientificNameWithoutAuthor,
+      family: top?.species?.family?.scientificNameWithoutAuthor,
+    }, null, 2))
     return res.json(data)
   } catch (error) {
     const msg = error instanceof Error ? error.message : '未知错误'
