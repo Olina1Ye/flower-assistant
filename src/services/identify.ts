@@ -1,8 +1,7 @@
 import type { FlowerIdentifyResult, PlantOrgan } from '../types'
 import { translateTaxonomy } from './taxonomy'
 
-// 与 chat.ts 保持一致的 API 基础地址
-const API_BASE = "https://b30abb00-ec9e-47c1-a588-150edf6febeb-3sho10ze6mobd.picard.replit.dev:3001/api";
+const API_BASE = "/api";
 
 type IdentifyParams = {
   file: File

@@ -1,7 +1,6 @@
 import type { ChatMessage } from '../types'
 
-// 你的Replit后端API基础地址（已配置好，无需修改）
-const API_BASE = "https://b30abb00-ec9e-47c1-a588-150edf6febeb-3sho10ze6mobd.picard.replit.dev:3001/api";
+const API_BASE = "/api";
 
 function normalize(text: string) {
   return text.trim().toLowerCase()
