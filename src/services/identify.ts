@@ -1,6 +1,9 @@
 import type { FlowerIdentifyResult, PlantOrgan } from '../types'
 import { translateTaxonomy } from './taxonomy'
 
+// 与 chat.ts 保持一致的 API 基础地址
+const API_BASE = "https://b30abb00-ec9e-47c1-a588-150edf6febeb-3sho10ze6mobd.picard.replit.dev/api";
+
 type IdentifyParams = {
   file: File
   organ: PlantOrgan
@@ -35,7 +38,7 @@ export async function identifyFlower(params: IdentifyParams): Promise<FlowerIden
   }
 
   // 通过后端代理而不是直接调用 PlantNet API
-  const url = new URL('http://localhost:3001/api/identify')
+  const url = new URL(`${API_BASE}/identify`)
   url.searchParams.set('api-key', apiKey)
   url.searchParams.set('lang', 'zh')
   url.searchParams.set('include-related-images', 'false')
@@ -68,11 +71,12 @@ export async function identifyFlower(params: IdentifyParams): Promise<FlowerIden
   ]);
 
   // 调用新的后端服务获取养护要点
-  const careTipsRes = await fetch('http://localhost:3001/api/care-tips', {
+  const careTipsRes = await fetch(`${API_BASE}/care-tips`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({ name, genus, family }),
   });
 

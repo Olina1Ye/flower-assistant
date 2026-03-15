@@ -15,6 +15,7 @@ app.use(cors({
     'http://127.0.0.1:5173',
     'https://flower-assistant-v51q.vercel.app',
     /^https:\/\/.*\.replit\.dev$/,
+    /^https:\/\/.*\.picard\.replit\.dev$/,
     /^https:\/\/.*\.repl\.co$/
   ],
   credentials: true,
