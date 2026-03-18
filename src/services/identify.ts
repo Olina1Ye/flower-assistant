@@ -25,31 +25,8 @@ type PlantNetResponse = {
   results?: PlantNetResult[]
 }
 
-function isChinese(str: string) {
-  return /[\u4e00-\u9fa5]/.test(str)
-}
-
-function hasRepeatedChars(str: string) {
-  return /(.)\1/.test(str)
-}
-
-function pickChineseName(species: PlantNetSpecies): { name: string; needsTranslation: boolean } {
-  const allNames = species.commonNames ?? []
-  const chineseNames = allNames.filter(isChinese)
-
-  if (chineseNames.length > 0) {
-    const clean = chineseNames.filter((n) => !hasRepeatedChars(n))
-    const candidates = clean.length > 0 ? clean : chineseNames
-    return { name: candidates[candidates.length - 1], needsTranslation: false }
-  }
-
-  const scientificName = species.scientificNameWithoutAuthor || species.scientificName || ''
-
-  if (allNames.length === 0) {
-    return { name: scientificName, needsTranslation: true }
-  }
-
-  return { name: scientificName, needsTranslation: false }
+function getScientificName(species: PlantNetSpecies): string {
+  return species.scientificNameWithoutAuthor || species.scientificName || ''
 }
 
 export async function identifyFlower(params: IdentifyParams): Promise<FlowerIdentifyResult> {
@@ -79,9 +56,9 @@ export async function identifyFlower(params: IdentifyParams): Promise<FlowerIden
     throw new Error('识花 API 未返回结果，请换一张更清晰的图片试试')
   }
 
-  const { name: rawName, needsTranslation } = pickChineseName(top.species)
+  const scientificName = getScientificName(top.species)
   const [name, genus, family] = await Promise.all([
-    needsTranslation ? translateTaxonomy(rawName) : Promise.resolve(rawName || '未知植物'),
+    translateTaxonomy(scientificName),
     translateTaxonomy(top.species.genus?.scientificNameWithoutAuthor),
     translateTaxonomy(top.species.family?.scientificNameWithoutAuthor),
   ]);
