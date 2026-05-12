@@ -64,8 +64,10 @@ npm run dev
 ```
 
 启动后访问：
-- 前端：http://localhost:5173
+- 前端：http://localhost:5000
 - 后端：http://localhost:3001
+
+如果 `5000` 端口已被占用，Vite 会自动切换到下一个可用端口，请以终端输出的 `Local` 地址为准，例如 `http://localhost:5001/`。
 
 ## 📦 构建与部署
 
@@ -192,7 +194,7 @@ Content-Type: application/json
 ## ⚠️ 注意事项
 
 1. **API Key 安全**：不要将 `.env` 文件提交到版本控制
-2. **CORS 配置**：后端默认允许 `localhost:5173` 和 `localhost:3000` 跨域
+2. **CORS 配置**：后端默认允许本地开发来源（`localhost` / `127.0.0.1` 的任意端口）跨域
 3. **文件大小限制**：图片上传限制为 10MB
 4. **生产环境**：需配置反向代理或修改 API 请求地址
 

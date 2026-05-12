@@ -10,9 +10,8 @@ const __dirname = path.dirname(__filename)
 const app = express()
 app.use(cors({
   origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
+    /^http:\/\/localhost:\d+$/,
+    /^http:\/\/127\.0\.0\.1:\d+$/,
     'https://flower-assistant-v51q.vercel.app',
     /^https:\/\/.*\.replit\.dev$/,
     /^https:\/\/.*\.picard\.replit\.dev$/,
